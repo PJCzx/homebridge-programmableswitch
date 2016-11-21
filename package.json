@@ -1,0 +1,32 @@
+{
+  "name": "homebridge-programmableswitch",
+  "version": "0.0.3",
+  "description": "Homebridge ...",
+  "main": "index.js",
+  "engines": {
+    "homebridge": ">=0.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PJCzx/homebridge-programmableswitch.git"
+  },
+  "keywords": [
+    "homebridge",
+    "homebridge-plugin",
+    "Programmable switch",
+    "shutter",
+    "HAP",
+    "window",
+    "cover"
+  ],
+  "author": "Pierre-Julien Cazaux",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PJCzx/homebridge-programmableswitch/issues"
+  },
+  "homepage": "https://github.com/PJCzx/homebridge-programmableswitch#readme",
+  "dependencies": {}
+}
