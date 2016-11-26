@@ -3,7 +3,7 @@ var PythonShell = require('python-shell');
 var Service, Characteristic;
 
 module.exports = function(homebridge) {
-	console.log("homebridge API version: " + homebridge.version);
+  console.log("homebridge API version: " + homebridge.version);
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
   homebridge.registerAccessory("homebridge-programmableswitch", "ProgrammableSwitch", ProgrammableSwitch);
@@ -15,16 +15,18 @@ function ProgrammableSwitch(log, config) {
 	this.switchService = new Service.Switch(this.name);
 
 	this.statefull = config.statefull !== undefined ? config.statefull : true;
-	this.log("Config Stateful", config.statefull);
-	this.log("This Stateful", this.statefull);
-
-	this.service = this.statefull === true ? new Service.StatefulProgrammableSwitch(this.name) : new Service.StatelessProgrammableSwitch(this.name);
+	this.programmableSwitchService = this.statefull === true ? new Service.StatefulProgrammableSwitch(this.name) : new Service.StatelessProgrammableSwitch(this.name);
 
 	this.name = config.name || "A Programmable Switch";
 
 	this.outputState = 0;
 
 	//this.batteryService = new Service.BatteryService(this.name);
+	this.speakerService = new Service.Speaker(this.name);
+	this.volume = 50;
+	this.isMute = false;
+
+	this.irCommands = config.irCommands;
 	
 	//this.id = config.id || 0;
 	this.pythonScriptPath = config.pythonScriptPath;
@@ -32,29 +34,28 @@ function ProgrammableSwitch(log, config) {
 
 	this.minValue = config.minValue || 0;
 	this.maxValue = config.maxValue || 1;
-	//this.apiroute = config.apiroute;
-	
+
 
 	// Required Characteristics
-  	//this.service.addCharacteristic(Characteristic.ProgrammableSwitchEvent);
-  	/*this.service.getCharacteristic(Characteristic.ProgrammableSwitchEvent)
+  	//this.programmableSwitchService.addCharacteristic(Characteristic.ProgrammableSwitchEvent);
+  	this.programmableSwitchService.getCharacteristic(Characteristic.ProgrammableSwitchEvent)
 	.setProps({
 	    maxValue: this.maxValue,
 	    minValue: this.minValue,
 	    minStep: 1
 	});
 
-	this.service.getCharacteristic(Characteristic.ProgrammableSwitchOutputState)
+	this.programmableSwitchService.getCharacteristic(Characteristic.ProgrammableSwitchOutputState)
  	.setProps({
 	    maxValue: this.maxValue,
 	    minValue: this.minValue,
 	    minStep: 1
-	});*/
+	});
 
   	// Optional Characteristics
   	//this.addOptionalCharacteristic(Characteristic.Name);
 
-	// you can OPTIONALLY create an information service if you wish to override
+	// you can OPTIONALLY create an information programmableSwitchService if you wish to override
 	// the default values for things like serial number, model, etc.
 	this.informationService = new Service.AccessoryInformation();
 
@@ -98,25 +99,54 @@ ProgrammableSwitch.prototype = {
 		this.log("setProgrammableSwitchOutputState :", value);
 
 		var options = {};
-		options.args = value;
 		options.scriptPath = this.pythonScriptPath;
 
-		//this.log("Redy to start" , options.scriptPath, this.pythonScriptName, options.args);
-		
-		PythonShell.run(this.pythonScriptName, options, function (err, results) {
-		  	if (err) {
-		  		this.log("Script Error", options.scriptPath, options.args, err);
-		  	 	callback(err);
-		  	} else {
-				// results is an array consisting of messages collected during execution
-			  	this.log('%j', results);
-			  	this.outputState = value;
 
-			  	this.log("outputState is now %s", this.outputState);
-			  	
-			  	callback(null); // success
-		  	}
-		}.bind(this));
+		
+		if(this.irCommands !== undefined) {
+			var commands = this.irCommands[value];
+			this.log(commands, commands.length);
+			try {
+				for (var i = 0; i < commands.length; i++) {
+					this.log(commands[i]);
+					options.args = [commands[i].remote, commands[i].key]; 
+					this.log(commands[i].remote, commands[i].key);
+					
+						PythonShell.run(this.pythonScriptName, options, function (err, results) {
+						  	if (err) {
+						  		throw err;
+						  	} else {
+								// results is an array consisting of messages collected during execution
+							  	this.log('%j', results);
+					  		}
+						}.bind(this));
+					}
+				} catch (e) {
+					this.log("Script Error", options.scriptPath, options.args, err);
+					callback(err);
+				}
+			this.outputState = value;
+			this.log("outputState is now %s", this.outputState);
+			callback(null); // success	
+		} else {
+			options.args = value;
+			//this.log("Redy to start" , options.scriptPath, this.pythonScriptName, options.args);
+			
+			PythonShell.run(this.pythonScriptName, options, function (err, results) {
+			  	if (err) {
+			  		this.log("Script Error", options.scriptPath, options.args, err);
+			  	 	callback(err);
+			  	} else {
+					// results is an array consisting of messages collected during execution
+				  	this.log('%j', results);
+				  	this.outputState = value;
+
+				  	this.log("outputState is now %s", this.outputState);
+				  	
+				  	callback(null); // success
+			  	}
+			}.bind(this));
+		}
 		
 	},
 	getOn: function(callback) {
@@ -132,7 +162,7 @@ ProgrammableSwitch.prototype = {
 
 	getServices: function() {
 
-		this.service
+		this.programmableSwitchService
 			.getCharacteristic(Characteristic.Name)
 			.on('get', this.getName.bind(this));
 
@@ -141,16 +171,41 @@ ProgrammableSwitch.prototype = {
 			.on('get', this.getOn.bind(this))
 			.on('set', this.setOn.bind(this));
 
-		this.service
+		this.programmableSwitchService
 			.getCharacteristic(Characteristic.ProgrammableSwitchEvent)
 			.on('get', this.getProgrammableSwitchEvent.bind(this))
 			.on('set', this.setProgrammableSwitchEvent.bind(this));
 
-		this.service
+		this.programmableSwitchService
 			.getCharacteristic(Characteristic.ProgrammableSwitchOutputState)
 			.on('get', this.getProgrammableSwitchOutputState.bind(this))
 			.on('set', this.setProgrammableSwitchOutputState.bind(this));
+
+		this.speakerService
+			.getCharacteristic(Characteristic.Volume)
+			.on('get', function(callback) {
+				this.log("Get Volume", this.volume);
+				callback(null, this.volume);
+			}.bind(this))
+			.on('set', function(value, callback) {
+				this.log("Set Volume", this.volume, "to", value);
+				this.volume = value;
+				callback(null);
+			}.bind(this));
+
+		this.speakerService
+			.getCharacteristic(Characteristic.Mute)
+			.on('get', function(callback) {
+				this.log("Get mute state", this.isMute);
+				callback(null, this.isMute);
+			}.bind(this))
+			.on('set', function(value, callback) {
+				this.log("Set mute", this.isMute, "to", value);
+				this.isMute = value;
+				callback(null);
+			}.bind(this));
+			
 	
-		return [this.informationService, this.service, this.switchService];//, this.batteryService];
+		return [this.informationService, this.programmableSwitchService, this.switchService, this.speakerService];
 	}
 };

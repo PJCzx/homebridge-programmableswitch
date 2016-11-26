@@ -31,13 +31,34 @@ Configuration sample:
         "maxValue": 3,
         "manufacturer": "Manufacturer",
         "model": "Model",
-        "serialnumber": "Serial Number"
+        "serialnumber": "Serial Number",
+        "irCommands": {
+            0: [{
+                "remote": "myRemote",
+                "key": "myKey"
+            },
+            {
+                "remote": "myRemote",
+                "key": "myKey"
+            }],
+            1: [{
+                "remote": "myRemote",
+                "key": "myKey"
+            }],
+            2: [{
+                "remote": "myRemote",
+                "key": "myKey"
+            }, {
+                "remote": "myRemote",
+                "key": "myKey"
+            }]
+        }
     }],
 
         "platforms":[]
     }
 ```
 
-The demo python script included takes `numeric` value as args. I added `on`, `off` for picky guys, and `true`, `false` for one of the shitty app I use wich doesn't comply with HAP.
+The demo python script included takes `numeric` value as args. `0` and `1` are `ON` & `OFF`. I added `on`, `off` commands for picky guys, and `true`, `false` for one of the shitty app I use wich doesn't comply with HAP protocol.
 
 Unfortunatelly, I'm also workin on an option `"statefull": false,` but the `StatelessProgrammableSwitch` looks unstable for now. Use with care, any feeback will be welcomed.
