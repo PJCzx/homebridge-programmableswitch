@@ -1,6 +1,6 @@
 {
   "name": "homebridge-programmableswitch",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Homebridge ...",
   "main": "index.js",
   "engines": {
@@ -16,11 +16,10 @@
   "keywords": [
     "homebridge",
     "homebridge-plugin",
+    "Stateless",
+    "Statefull",
     "Programmable switch",
-    "shutter",
-    "HAP",
-    "window",
-    "cover"
+    "HAP"
   ],
   "author": "Pierre-Julien Cazaux",
   "license": "ISC",
