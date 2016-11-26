@@ -17,7 +17,7 @@
     "homebridge",
     "homebridge-plugin",
     "Stateless",
-    "Statefull",
+    "Stateful",
     "Programmable switch",
     "HAP"
   ],
