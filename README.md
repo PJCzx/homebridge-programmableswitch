@@ -23,10 +23,20 @@ Configuration sample:
 
         "accessories": [{
         "accessory": "ProgrammableSwitch",
-        "name": "ProgrammableSwitch",
-        "statefull": false
+        "name": "Programmable Switch",
+        "id": 123,
+        "statefull": true,
+        "pythonScriptPath": "ABSOLUTE_TO_YOUR_SCRIPT",
+        "pythonScriptName": "SCRIPT_NAME.py",
+        "minValue": 0,
+        "maxValue": 3,
+        "manufacturer": "Manufacturer",
+        "model": "Model",
+        "serialnumber": "Serial Number"
     }],
 
         "platforms":[]
     }
 ```
+
+Unfortunatelly, I'm also workin on an option `"statefull": false,` but the `StatelessProgrammableSwitch` looks unstable for now. Use with care, any feeback will be welcomed.

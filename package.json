@@ -1,6 +1,6 @@
 {
   "name": "homebridge-programmableswitch",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Homebridge ...",
   "main": "index.js",
   "engines": {
@@ -28,5 +28,7 @@
     "url": "https://github.com/PJCzx/homebridge-programmableswitch/issues"
   },
   "homepage": "https://github.com/PJCzx/homebridge-programmableswitch#readme",
-  "dependencies": {}
+  "dependencies": {
+    "python-shell": "^0.4.0"
+  }
 }
