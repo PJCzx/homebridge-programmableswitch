@@ -98,6 +98,9 @@ ProgrammableSwitch.prototype = {
 	setProgrammableSwitchOutputState: function(value, callback) {
 		this.log("setProgrammableSwitchOutputState :", value);
 
+		if(value === false) value = 0;
+		if(value === true) value = 1;
+
 		var options = {};
 		options.scriptPath = this.pythonScriptPath;
 
