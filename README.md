@@ -33,7 +33,7 @@ Configuration sample:
         "model": "Model",
         "serialnumber": "Serial Number",
         "irCommands": {
-            0: [{
+            "0": [{
                 "remote": "myRemote",
                 "key": "myKey"
             },
@@ -41,11 +41,11 @@ Configuration sample:
                 "remote": "myRemote",
                 "key": "myKey"
             }],
-            1: [{
+            "1": [{
                 "remote": "myRemote",
                 "key": "myKey"
             }],
-            2: [{
+            "2": [{
                 "remote": "myRemote",
                 "key": "myKey"
             }, {
