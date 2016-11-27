@@ -1,6 +1,6 @@
 {
   "name": "homebridge-programmableswitch",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Homebridge Programmable Switch plugin for Homebridge",
   "main": "index.js",
   "engines": {

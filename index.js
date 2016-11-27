@@ -15,8 +15,9 @@ function ProgrammableSwitch(log, config) {
 	//this.switchService = new Service.Switch(this.name);
 
 	this.statefull = config.statefull !== undefined ? config.statefull : true;
-	this.programmableSwitchService = this.statefull === true ? new Service.StatefulProgrammableSwitch(this.name) : new Service.StatelessProgrammableSwitch(this.name);
-
+	//this.programmableSwitchService = this.statefull === true ? new Service.StatefulProgrammableSwitch(this.name) : new Service.StatelessProgrammableSwitch(this.name);
+	this.programmableSwitchService = new Service.Switch(this.name);
+	this.log(this.programmableSwitchService);
 	this.name = config.name || "A Programmable Switch";
 
 	this.outputState = 0;
@@ -37,13 +38,15 @@ function ProgrammableSwitch(log, config) {
 
 
 	// Required Characteristics
-  	//this.programmableSwitchService.addCharacteristic(Characteristic.ProgrammableSwitchEvent);
+  	this.programmableSwitchService.addCharacteristic(Characteristic.ProgrammableSwitchOutputState);
+  	/*
   	this.programmableSwitchService.getCharacteristic(Characteristic.ProgrammableSwitchEvent)
 	.setProps({
 	    maxValue: this.maxValue,
 	    minValue: this.minValue,
 	    minStep: 1
 	});
+	*/
 
 	this.programmableSwitchService.getCharacteristic(Characteristic.ProgrammableSwitchOutputState)
  	.setProps({
@@ -164,25 +167,27 @@ ProgrammableSwitch.prototype = {
 	},
 
 	getServices: function() {
-/*
-		this.switchService
+
+		this.programmableSwitchService
         	.getCharacteristic(Characteristic.On)
 			.on('get', this.getOn.bind(this))
 			.on('set', this.setOn.bind(this));
-*/
+
 		this.programmableSwitchService
 			.getCharacteristic(Characteristic.Name)
 			.on('get', this.getName.bind(this));
-
+/*
 		this.programmableSwitchService
 			.getCharacteristic(Characteristic.ProgrammableSwitchEvent)
 			.on('get', this.getProgrammableSwitchEvent.bind(this))
 			.on('set', this.setProgrammableSwitchEvent.bind(this));
+*/
 
 		this.programmableSwitchService
 			.getCharacteristic(Characteristic.ProgrammableSwitchOutputState)
 			.on('get', this.getProgrammableSwitchOutputState.bind(this))
 			.on('set', this.setProgrammableSwitchOutputState.bind(this));
+
 /*
 		this.speakerService
 			.getCharacteristic(Characteristic.Volume)
