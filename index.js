@@ -17,7 +17,6 @@ function ProgrammableSwitch(log, config) {
 	this.statefull = config.statefull !== undefined ? config.statefull : true;
 	//this.programmableSwitchService = this.statefull === true ? new Service.StatefulProgrammableSwitch(this.name) : new Service.StatelessProgrammableSwitch(this.name);
 	this.programmableSwitchService = new Service.Switch(this.name);
-	this.log(this.programmableSwitchService);
 	this.name = config.name || "A Programmable Switch";
 	this.isDummy = config.isDummy || false;
 	
