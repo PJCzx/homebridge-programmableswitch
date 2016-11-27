@@ -12,7 +12,7 @@ module.exports = function(homebridge) {
 
 function ProgrammableSwitch(log, config) {
 	this.log = log;
-	this.switchService = new Service.Switch(this.name);
+	//this.switchService = new Service.Switch(this.name);
 
 	this.statefull = config.statefull !== undefined ? config.statefull : true;
 	this.programmableSwitchService = this.statefull === true ? new Service.StatefulProgrammableSwitch(this.name) : new Service.StatelessProgrammableSwitch(this.name);
@@ -164,15 +164,15 @@ ProgrammableSwitch.prototype = {
 	},
 
 	getServices: function() {
-
-		this.programmableSwitchService
-			.getCharacteristic(Characteristic.Name)
-			.on('get', this.getName.bind(this));
-
+/*
 		this.switchService
         	.getCharacteristic(Characteristic.On)
 			.on('get', this.getOn.bind(this))
 			.on('set', this.setOn.bind(this));
+*/
+		this.programmableSwitchService
+			.getCharacteristic(Characteristic.Name)
+			.on('get', this.getName.bind(this));
 
 		this.programmableSwitchService
 			.getCharacteristic(Characteristic.ProgrammableSwitchEvent)
@@ -183,7 +183,7 @@ ProgrammableSwitch.prototype = {
 			.getCharacteristic(Characteristic.ProgrammableSwitchOutputState)
 			.on('get', this.getProgrammableSwitchOutputState.bind(this))
 			.on('set', this.setProgrammableSwitchOutputState.bind(this));
-
+/*
 		this.speakerService
 			.getCharacteristic(Characteristic.Volume)
 			.on('get', function(callback) {
@@ -207,8 +207,8 @@ ProgrammableSwitch.prototype = {
 				this.isMute = value;
 				callback(null);
 			}.bind(this));
-			
+*/			
 	
-		return [this.informationService, this.programmableSwitchService, this.switchService, this.speakerService];
+		return [this.informationService, this.programmableSwitchService]; //, this.switchService, this.speakerService
 	}
 };
