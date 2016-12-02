@@ -32,6 +32,7 @@ Configuration sample:
         "manufacturer": "Manufacturer",
         "model": "Model",
         "serialnumber": "Serial Number",
+        "isDummy": false,
         "irCommands": {
             "0": [{
                 "remote": "myRemote",
