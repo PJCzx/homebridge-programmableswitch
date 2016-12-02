@@ -19,7 +19,8 @@ function ProgrammableSwitch(log, config) {
 	this.programmableSwitchService = new Service.Switch(this.name);
 	this.log(this.programmableSwitchService);
 	this.name = config.name || "A Programmable Switch";
-
+	this.isDummy = config.isDummy || false;
+	
 	this.outputState = 0;
 
 	//this.batteryService = new Service.BatteryService(this.name);
@@ -163,6 +164,15 @@ ProgrammableSwitch.prototype = {
 	setOn: function(value, callback) {
 		this.log("setOn :", value);
 		//could be separated but using only one behavior
+		
+		this.log("Setting switch to " + value);
+  
+		if (this.isDummy == true && (value == true || value == 1)) {
+	   	      setTimeout(function() {
+		      this._service.setCharacteristic(Characteristic.On, false);
+		    }.bind(this), 2000);
+		}
+		
 		this.setProgrammableSwitchOutputState(value, callback);
 	},
 
