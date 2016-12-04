@@ -168,7 +168,7 @@ ProgrammableSwitch.prototype = {
   
 		if (this.isDummy == true && (value == true || value == 1)) {
 	   	      setTimeout(function() {
-		      this._service.setCharacteristic(Characteristic.On, false);
+		      this.programmableSwitchService.setCharacteristic(Characteristic.On, 0);
 		    }.bind(this), 2000);
 		}
 		
