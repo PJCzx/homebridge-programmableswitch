@@ -1,6 +1,12 @@
 # homebridge-programmableswitch
 
-Supports Programmable Switch devices on HomeBridge Platform
+Supports Programmable Switch devices on HomeBridge Platform.
+
+It currently covers Python script triggering for
+
+1. IR codes (via LIRC)
+2. Blyss devices
+3. A custom 433Mhz protocol of mine 
 
 # Installation
 
@@ -33,6 +39,7 @@ Configuration sample:
         "model": "Model",
         "serialnumber": "Serial Number",
         "isDummy": false,
+        "buttonId": 1,
         "irCommands": {
             "0": [{
                 "remote": "myRemote",
@@ -60,6 +67,46 @@ Configuration sample:
     }
 ```
 
-The demo python script included takes `numeric` value as args. `0` and `1` are `ON` & `OFF`. I added `on`, `off` commands for picky guys, and `true`, `false` for one of the shitty app I use wich doesn't comply with HAP protocol.
-
 Unfortunatelly, I'm also workin on an option `"statefull": false,` but the `StatelessProgrammableSwitch` looks unstable for now. Use with care, any feeback will be welcomed.
+
+
+For Bliss
+---
+'''
+{
+    "accessory": "ProgrammableSwitch",
+    "name": "Socket",
+    "statefull": true,
+    "pythonScriptPath": "/usr/local/lib/node_modules/homebridge-programmableswitch/",
+    "pythonScriptName": "blyss.py",
+    "manufacturer": "Blyss",
+    "serialnumber": "Button1",
+    "buttonId": 1
+  }
+'''
+
+For LIRC
+---
+'''
+{
+    "accessory": "ProgrammableSwitch",
+    "name": "Vidéo projecteur",
+    "statefull": true,
+    "pythonScriptPath": "/usr/local/lib/node_modules/homebridge-programmableswitch/",
+    "pythonScriptName": "IRremote.py",
+    "minValue": 0,
+    "maxValue": 1,
+    "manufacturer": "Optoma",
+    "serialnumber": "HD 700X",
+    "irCommands": {
+      "0": [{
+          "remote": "OPTOMA_HD700X",
+          "key": "KEY_POWER"
+      }],
+      "1": [{
+          "remote": "OPTOMA_HD700X",
+          "key": "KEY_POWER"
+      }]
+    }
+  }
+'''

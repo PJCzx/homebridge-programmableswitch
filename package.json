@@ -1,6 +1,6 @@
 {
   "name": "homebridge-programmableswitch",
-  "version": "0.0.19",
+  "version": "0.0.24",
   "description": "Homebridge Programmable Switch plugin for Homebridge",
   "main": "index.js",
   "engines": {
@@ -19,7 +19,11 @@
     "Stateless",
     "Stateful",
     "Programmable switch",
-    "HAP"
+    "HAP",
+    "Blyss",
+    "LIRC",
+    "python",
+    "433MhZ"
   ],
   "author": "Pierre-Julien Cazaux",
   "license": "ISC",

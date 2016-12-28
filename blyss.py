@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 import time
 import sys
 
+from os.path import expanduser
+
 class Blyss :
  
         # Table des identifiants programmés dans les prises
@@ -28,7 +30,7 @@ class Blyss :
         # Nombre de secondes d'attente entre deux retry
         attenteEntrePaquets = 0.024
  
-        path2FileIdxLastRollingCode = "./lastRCBlyss.idx"
+        path2FileIdxLastRollingCode = expanduser("~") + "/lastRCBlyss.idx"
         idRollingCode = 0
  
         def __init__(self, dataPin ):
@@ -86,7 +88,7 @@ class Blyss :
                 # sous canal : a paramètrer ?
                 sousCanal = "1000"
  
-                if action == "ON" or action == "true" or action == "100":
+                if action == "ON" or action == "true" or action == "1"or action == "100":
                         etatLumiere = "0000"
                 elif action == "OFF" or action == "false" or action == "0" :
                         etatLumiere = "0001"

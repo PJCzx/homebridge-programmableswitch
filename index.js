@@ -136,7 +136,8 @@ ProgrammableSwitch.prototype = {
 			this.log("outputState is now %s", this.outputState);
 			callback(null); // success	
 		} else {
-			options.args = "" + this.buttonId !== undefined ? this.buttonId + " " : ""  + value;
+			if(this.buttonId !== undefined) options.args = [this.buttonId, value]
+			else options.args = value;
 			//this.log("Redy to start" , options.scriptPath, this.pythonScriptName, options.args);
 			
 			PythonShell.run(this.pythonScriptName, options, function (err, results) {

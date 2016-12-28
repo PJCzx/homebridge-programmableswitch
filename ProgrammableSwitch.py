@@ -6,10 +6,10 @@ off = 'off'
 false = 'false'
 
 def action(code):
-    if code is off or false or code == 0:
+    if code is off or False or code == 0:
         print "Action 0"
 
-    elif code is on or true or code == 1:
+    elif code is on or True or code == 1:
         print "Action 1"
 
     elif code == 2:
