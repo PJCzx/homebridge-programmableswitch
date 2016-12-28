@@ -5,7 +5,7 @@ Supports Programmable Switch devices on HomeBridge Platform.
 It currently covers Python script triggering for
 
 1. IR codes (via LIRC)
-2. Blyss devices
+2. Blyss devices [thx StefTech](https://steftech.wordpress.com/2014/06/10/cloner-une-telecommande-radio-frequence-433mhz-part-3-le-cas-blyss/)
 3. A custom 433Mhz protocol of mine 
 
 # Installation
