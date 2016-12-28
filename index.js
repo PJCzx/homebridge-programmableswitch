@@ -19,6 +19,7 @@ function ProgrammableSwitch(log, config) {
 	this.programmableSwitchService = new Service.Switch(this.name);
 	this.name = config.name || "A Programmable Switch";
 	this.isDummy = config.isDummy || false;
+	this.buttonId = config.buttonId;
 	
 	this.outputState = 0;
 
@@ -135,7 +136,7 @@ ProgrammableSwitch.prototype = {
 			this.log("outputState is now %s", this.outputState);
 			callback(null); // success	
 		} else {
-			options.args = value;
+			options.args = "" + this.buttonId !== undefined ? this.buttonId + " " : ""  + value;
 			//this.log("Redy to start" , options.scriptPath, this.pythonScriptName, options.args);
 			
 			PythonShell.run(this.pythonScriptName, options, function (err, results) {
