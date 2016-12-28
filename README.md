@@ -72,7 +72,7 @@ Unfortunatelly, I'm also workin on an option `"statefull": false,` but the `Stat
 
 For Bliss
 ---
-'''
+```
 {
     "accessory": "ProgrammableSwitch",
     "name": "Socket",
@@ -83,11 +83,11 @@ For Bliss
     "serialnumber": "Button1",
     "buttonId": 1
   }
-'''
+```
 
 For LIRC
 ---
-'''
+```
 {
     "accessory": "ProgrammableSwitch",
     "name": "Vidéo projecteur",
@@ -109,4 +109,4 @@ For LIRC
       }]
     }
   }
-'''
+```
