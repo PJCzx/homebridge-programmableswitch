@@ -40,6 +40,7 @@ Configuration sample:
         "serialnumber": "Serial Number",
         "isDummy": false,
         "buttonId": 1,
+        "timer": 60,
         "irCommands": {
             "0": [{
                 "remote": "myRemote",

@@ -20,8 +20,7 @@ function ProgrammableSwitch(log, config) {
 	this.name = config.name || "A Programmable Switch";
 	this.isDummy = config.isDummy || false;
 	this.buttonId = config.buttonId;
-	
-	this.outputState = 0;
+    this.outputState = 0;
 
 	//this.batteryService = new Service.BatteryService(this.name);
 	this.speakerService = new Service.Speaker(this.name);
@@ -37,6 +36,33 @@ function ProgrammableSwitch(log, config) {
 	this.minValue = config.minValue || 0;
 	this.maxValue = config.maxValue || 1;
 
+    this.sendRF = function(value, callback) {
+        if(value === false) value = 0;
+        if(value === true) value = 1;
+
+        var options = {};
+
+        options.scriptPath = this.pythonScriptPath;
+        if(this.buttonId !== undefined) options.args = [this.buttonId, value]
+        else options.args = value;
+        //this.log("Redy to start" , options.scriptPath, this.pythonScriptName, options.args);
+
+        PythonShell.run(this.pythonScriptName, options, function (err, results) {
+            if (err) {
+                this.log("Script Error", options.scriptPath, options.args, err);
+                if(callback) callback(err);
+            } else {
+                // results is an array consisting of messages collected during execution
+                this.log('%j', results);
+                this.outputState = value;
+
+                this.log("outputState is now %s", this.outputState);
+                if(callback) callback(null); // success
+            }
+        }.bind(this));
+                
+        };
+    this.timer = config.timer !== undefined ? setInterval(function() {this.sendRF(this.outputState) }.bind(this), config.timer*1000) : undefined;
 
 	// Required Characteristics
   	this.programmableSwitchService.addCharacteristic(Characteristic.ProgrammableSwitchOutputState);
@@ -139,7 +165,7 @@ ProgrammableSwitch.prototype = {
 			if(this.buttonId !== undefined) options.args = [this.buttonId, value]
 			else options.args = value;
 			//this.log("Redy to start" , options.scriptPath, this.pythonScriptName, options.args);
-			
+
 			PythonShell.run(this.pythonScriptName, options, function (err, results) {
 			  	if (err) {
 			  		this.log("Script Error", options.scriptPath, options.args, err);
@@ -150,7 +176,7 @@ ProgrammableSwitch.prototype = {
 				  	this.outputState = value;
 
 				  	this.log("outputState is now %s", this.outputState);
-				  	
+
 				  	callback(null); // success
 			  	}
 			}.bind(this));
