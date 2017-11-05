@@ -9,7 +9,9 @@ def IRremoteSend(remote, key):
 		os.system("sudo lircd -d /dev/lirc0")
 
 	cmd = "irsend SEND_ONCE %s %s" % (remote, key)
-	os.system(cmd)
+       	for n in '123':
+		os.system(cmd)
+		time.sleep(1)
 
 	if remote == "VP":
 		if key == "KEY_POWER":
